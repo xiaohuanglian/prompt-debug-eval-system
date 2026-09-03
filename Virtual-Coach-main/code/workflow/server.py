@@ -2,22 +2,44 @@ import asyncio
 import json
 import os
 import re
+import sys
+from ipaddress import ip_address
+from pathlib import Path
 from typing import Dict, Any, Optional
 
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import StreamingResponse
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 from pydantic import BaseModel
 
+WORKFLOW_DIR = Path(__file__).resolve().parent
+EXAMPLES_DIR = WORKFLOW_DIR / "example"
 app = FastAPI()
 
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],          # 开发期先用 *，上线建议改成具体域名
-    allow_credentials=True,
-    allow_methods=["*"],          # 允许 OPTIONS/POST/GET...
-    allow_headers=["*"],          # 允许 Content-Type 等
+    TrustedHostMiddleware,
+    allowed_hosts=["localhost", "127.0.0.1", "[::1]"],
 )
+
+
+@app.middleware("http")
+async def require_local_request(request: Request, call_next):
+    """This unauthenticated development service is restricted to this machine."""
+    try:
+        local = request.client is not None and ip_address(request.client.host).is_loopback
+    except ValueError:
+        local = False
+    origin = request.headers.get("origin")
+    expected_origin = f"{request.url.scheme}://{request.url.netloc}"
+    if (not local or (origin is not None and origin != expected_origin)
+            or request.headers.get("sec-fetch-site") == "cross-site"):
+        return JSONResponse(status_code=403, content={"detail": "Local same-origin access only"})
+    return await call_next(request)
+
+
+@app.get("/", include_in_schema=False)
+async def index():
+    return FileResponse(WORKFLOW_DIR / "workflow.html")
 
 
 RUNS: Dict[str, Dict[str, Any]] = {}  # run_id -> {proc, log_path}
@@ -72,11 +94,13 @@ async def _read_kv_from_stdout(proc: asyncio.subprocess.Process, key: str, timeo
 @app.post("/api/start")
 async def start(req: StartReq):
     # 用参数方式启动 cli，避免 stdin 交互不稳定
-    cmd = ["python", "cli.py", "--demand", req.demand]
+    cmd = [sys.executable, "cli.py", "--demand", req.demand]
     if req.example_path is not None and req.example_path.strip():
-        cmd += ["--example", req.example_path]
-    
-    print(f"[server] 执行命令: {cmd}")
+        example = (WORKFLOW_DIR / req.example_path).resolve()
+        if (not example.is_relative_to(EXAMPLES_DIR.resolve())
+                or example.suffix.lower() != ".json" or not example.is_file()):
+            raise HTTPException(status_code=400, detail="Example must be a JSON file in the example directory")
+        cmd += ["--example", str(example)]
 
     try:
         proc = await asyncio.create_subprocess_exec(
@@ -88,7 +112,7 @@ async def start(req: StartReq):
     except Exception as e:
         error_msg = f"无法启动子进程: {str(e)}"
         print(f"[server] 错误: {error_msg}")
-        raise HTTPException(status_code=500, detail=error_msg)
+        raise HTTPException(status_code=500, detail="Unable to start workflow; inspect local server logs")
 
     try:
         run_id = await _read_kv_from_stdout(proc, "RUN_ID", timeout_s=5.0)
@@ -107,10 +131,10 @@ async def start(req: StartReq):
         
         error_msg = str(e)
         print(f"[server] 错误: {error_msg}")
-        raise HTTPException(status_code=500, detail=error_msg)
+        raise HTTPException(status_code=500, detail="Workflow startup failed; inspect local server logs")
 
-    RUNS[run_id] = {"proc": proc, "log_path": log_path}
-    return {"run_id": run_id, "log_path": log_path}
+    RUNS[run_id] = {"proc": proc, "log_path": str(WORKFLOW_DIR / log_path)}
+    return {"run_id": run_id, "log_path": Path(log_path).name}
 
 
 async def tail_lines(path: str, poll: float = 0.2):
@@ -142,7 +166,7 @@ async def stream(run_id: str):
         from datetime import datetime
         import time
         ts = datetime.fromtimestamp(time.time()).isoformat(sep=" ", timespec="seconds")
-        yield f"event: meta\ndata: {json.dumps({'run_id': run_id, 'log_path': log_path, 'ts': ts}, ensure_ascii=False)}\n\n"
+        yield f"event: meta\ndata: {json.dumps({'run_id': run_id, 'log_path': Path(log_path).name, 'ts': ts}, ensure_ascii=False)}\n\n"
         async for line in tail_lines(log_path):
             line = line.strip()
             if not line:

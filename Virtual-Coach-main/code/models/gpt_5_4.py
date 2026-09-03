@@ -8,7 +8,7 @@ API_KEY = os.getenv("GPT_API_KEY") or os.getenv("OPENAI_API_KEY", "")
 
 client = OpenAI(
     api_key=API_KEY,
-    base_url=os.getenv("GPT_BASE_URL", "https://api-gateway.glm.ai/v1")
+    base_url=os.getenv("GPT_BASE_URL") or os.getenv("OPENAI_BASE_URL") or "https://api.openai.com/v1"
 )
 
 def llm_response(prompt: str):

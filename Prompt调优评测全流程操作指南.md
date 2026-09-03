@@ -3,7 +3,7 @@
 ## 📌 重要说明（使用前必读）
 
 1. **本系统定位**：Prompt开发测试工具，非生产部署环境
-2. **工作本质**：开发(DEV)过程，需在类似Claude Code的Agent编程环境中运行和调试
+2. **工作本质**：开发(DEV)过程，可通过命令行或桌面 GUI 运行和调试
 3. **使用预期**：随时准备修改数据与代码，而非运行固化应用
 4. **缓冲期**：建议先验证流程和机制的有效性
 
@@ -14,7 +14,7 @@
 ### 1.1 环境配置
 ```bash
 # 创建虚拟环境
-conda create -n vc python=3.8
+conda create -n vc python=3.10
 conda activate vc
 
 # 安装依赖
@@ -38,7 +38,10 @@ GLM_MODEL="glm-4-flash"
 ```bash
 cd code/utils 
 python auto_generate_llm_call.py
+cd ../..
 ```
+
+生成器只创建运行时读取配置的适配器，不写入凭据、服务地址或模型名，也不执行模型调用。
 
 ### 1.4 并发数设置
 > 根据所用Target模型的实际能力设置。部分模型（如glm-4-flash）不支持并发，需设置为1。

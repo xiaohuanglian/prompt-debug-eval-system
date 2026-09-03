@@ -45,6 +45,9 @@ def list_available_models() -> list:
     system_api_config = {}
     with open(api_keys_path, "r", encoding="utf-8") as f:
         for line in f.read().split("\n"):
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
             if "_URL" in line or "_API_KEY" in line or "_MODEL" in line:
                 if_name = line.split("_")[0]
                 if if_name not in system_api_config:
@@ -84,31 +87,33 @@ _META_LLM_API_TEMPLATE = '''
 import json
 import os
 import pathlib
+import re
 import time
 import urllib.error
 import urllib.request
 
-CONFIG_PREFIX = "{prefix}"
+RUNTIME_CONFIG_VERSION = 2
+CONFIG_PREFIX = {prefix!r}
 API_KEY = os.getenv(CONFIG_PREFIX + "_API_KEY", "")
-BASE_URL = "{url}"
-MODEL = "{model}"
+BASE_URL = ""
+MODEL = ""
 
 def configure(api_key: str = "", base_url: str = "", model: str = ""):
     """运行时注入配置，避免把 API Key 写入自动生成的源码文件。"""
     global API_KEY, BASE_URL, MODEL
-    if not api_key:
+    ns = {{}}
+    if not all((api_key, base_url, model)):
         try:
             api_keys_path = pathlib.Path(__file__).with_name("api_keys.py")
-            ns = {{}}
             exec(api_keys_path.read_text(encoding="utf-8"), ns)
-            api_key = ns.get(CONFIG_PREFIX + "_API_KEY", "")
-        except Exception:
-            api_key = ""
-    API_KEY = api_key or API_KEY
-    BASE_URL = (base_url or BASE_URL).rstrip("/")
-    MODEL = model or MODEL
-    if not API_KEY:
-        raise RuntimeError("API_KEY 为空，请检查 code/models/api_keys.py 或环境配置。")
+        except FileNotFoundError:
+            pass
+    API_KEY = api_key or os.getenv(CONFIG_PREFIX + "_API_KEY") or ns.get(CONFIG_PREFIX + "_API_KEY", "") or API_KEY
+    configured_url = base_url or os.getenv(CONFIG_PREFIX + "_URL") or ns.get(CONFIG_PREFIX + "_URL", "") or BASE_URL
+    BASE_URL = re.sub(r"/chat/completions/?$", "", configured_url.strip()).rstrip("/")
+    MODEL = model or os.getenv(CONFIG_PREFIX + "_MODEL") or ns.get(CONFIG_PREFIX + "_MODEL", "") or MODEL
+    if not all((API_KEY, BASE_URL, MODEL)):
+        raise RuntimeError("请配置模型的 API_KEY、URL 和 MODEL（本地 api_keys.py 或对应环境变量）。")
 
 def _chat_completions(prompt: str) -> str:
     payload = json.dumps({{
@@ -134,7 +139,7 @@ def _chat_completions(prompt: str) -> str:
     return data["choices"][0]["message"]["content"]
 
 def llm_response(prompt: str):
-    if not API_KEY:
+    if not all((API_KEY, BASE_URL, MODEL)):
         configure()
     max_retries = 3
     tried = 0
@@ -182,7 +187,8 @@ def _ensure_model_file(model_info: dict) -> str:
             # edits to api_keys.py. Regenerate them into the runtime-configurable
             # template so GUI selections always use the latest settings.
             should_generate = (
-                "def configure(" not in existing
+                "RUNTIME_CONFIG_VERSION = 2" not in existing
+                or "def configure(" not in existing
                 or "CONFIG_PREFIX" not in existing
                 or "urllib.request" not in existing
             )
@@ -192,8 +198,6 @@ def _ensure_model_file(model_info: dict) -> str:
     if should_generate:
         content = _META_LLM_API_TEMPLATE.format(
             prefix=model_info["prefix"],
-            model=model_info["model_name"],
-            url=model_info["url"],
         )
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(content)

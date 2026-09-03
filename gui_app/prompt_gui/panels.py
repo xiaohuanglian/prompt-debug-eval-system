@@ -4621,10 +4621,9 @@ class DeployPanel(QWidget):
     # ── Config persistence ─────────────────────────────────────────────
 
     def _save_config(self):
-        """Save LLM Gateway connection config to JSON file."""
+        """Save non-secret LLM Gateway connection settings to JSON."""
         config = {
             "base_url": self.base_url_edit.text().strip(),
-            "api_key": self.api_key_edit.text().strip(),
             "namespace": self.namespace_edit.text().strip(),
         }
         try:
@@ -4636,43 +4635,31 @@ class DeployPanel(QWidget):
             pass
 
     def _load_config(self):
-        """Load LLM Gateway connection config from JSON file."""
+        """Load connection settings and remove credentials saved by older versions."""
+        self.api_key_edit.setText(self._default_api_key())
         config_path = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), "..", ".deploy_config",
             f"{self.STORAGE_KEY}.json"
         )
         try:
-            with open(config_path) as f:
+            with open(config_path, encoding="utf-8") as f:
                 config = json.load(f)
+            if "api_key" in config:
+                del config["api_key"]
+                try:
+                    with open(config_path, "w", encoding="utf-8") as f:
+                        json.dump(config, f)
+                except OSError:
+                    self._log("无法清理旧部署配置中的 API Key，请检查配置文件写入权限。")
             self.base_url_edit.setText(config.get("base_url", self.base_url_edit.text()))
-            self.api_key_edit.setText(config.get("api_key", "") or self._default_api_key())
             self.namespace_edit.setText(config.get("namespace", "default"))
         except (FileNotFoundError, json.JSONDecodeError):
-            self.api_key_edit.setText(self._default_api_key())
+            pass
 
     def _default_api_key(self):
-        """Read the existing project API key so deploy can be used without retyping it."""
-        candidates = [
-            os.path.join(PROJECT_ROOT, "code", "workflow", "llm_key.py"),
-            os.path.join(PROJECT_ROOT, "code", "models", "api_keys.py"),
-        ]
-        patterns = [
-            r'api_key\s*=\s*["\']([^"\']+)["\']',
-            r'OPENAI_API_KEY\s*=\s*["\']([^"\']+)["\']',
-        ]
-        for path in candidates:
-            if not os.path.exists(path):
-                continue
-            try:
-                with open(path, "r", encoding="utf-8") as f:
-                    text = f.read()
-                for pattern in patterns:
-                    match = re.search(pattern, text)
-                    if match and match.group(1).strip():
-                        return match.group(1).strip()
-            except Exception:
-                continue
-        return ""
+        """Only use credentials explicitly configured for the gateway."""
+        return (os.getenv("GATEWAY_API_KEY", "").strip()
+                or os.getenv("STREAMBRIDGE_API_KEY", "").strip())
 
     def _upload_prompt_file(self):
         path, _ = QFileDialog.getOpenFileName(

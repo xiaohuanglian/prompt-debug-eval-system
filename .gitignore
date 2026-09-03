@@ -3,6 +3,8 @@
 .env.*
 **/.env
 **/.env.*
+!.env.example
+!**/.env.example
 **/api_keys.py
 !**/api_keys_template.py
 **/llm_key.py
@@ -11,46 +13,63 @@
 
 # Local editor / agent state
 .claude/
+.codex/
 .agents/
 .omc/
 .idea/
 .vscode/
+docs/superpowers/
 *.swp
 *.bkp
+*.bak
+*.pem
+*.key
+*.p12
+*.pfx
 
 # Third-party papers (copyrighted) and unpublished manuscripts
 Virtual-Coach-main/paper/
 
-# Proprietary product prompts, eval sets, traces, and deploy templates
-# (kept on disk for local use; not published)
-Virtual-Coach-main/data/prompt/虚拟教练组间总结/
-Virtual-Coach-main/data/prompt/无评估动作虚拟教练总结/
-Virtual-Coach-main/data/prompt/训练日介绍语/
-Virtual-Coach-main/data/prompt/测试/
-Virtual-Coach-main/data/eval/无评估动作虚拟教练总结.json
-Virtual-Coach-main/data/eval/组间下一组交互式会话决策安排.json
-Virtual-Coach-main/data/eval/虚拟教练组间总结.json
-Virtual-Coach-main/data/eval/训练日介绍语.json
+# New scenarios and local business inputs are private by default.
+# Already tracked public research examples remain tracked; gitignore is not erasure.
+Virtual-Coach-main/data/prompt/*
+!Virtual-Coach-main/data/prompt/SampleScenario/
+Virtual-Coach-main/data/prompt/SampleScenario/*
+!Virtual-Coach-main/data/prompt/SampleScenario/__init__.py
+!Virtual-Coach-main/data/prompt/SampleScenario/v1.py
+Virtual-Coach-main/data/eval/*
+Virtual-Coach-main/data/raw_docs/*
+!Virtual-Coach-main/data/raw_docs/SampleScenario/
 Virtual-Coach-main/data/system_context/
 Virtual-Coach-main/data/trace/
-Virtual-Coach-main/data/raw_docs/无评估动作虚拟教练总结/
-Virtual-Coach-main/data/raw_docs/虚拟教练组间总结/
-Virtual-Coach-main/data/raw_docs/训练日介绍语/
-Virtual-Coach-main/code/eval/eval_prompt_无评估动作虚拟教练总结.py
-Virtual-Coach-main/code/eval/eval_prompt_测试.py
-Virtual-Coach-main/code/eval/eval_prompt_虚拟教练组间总结.py
-Virtual-Coach-main/code/eval/eval_prompt_训练日介绍语.py
+Virtual-Coach-main/code/eval/eval_prompt_*.py
 Virtual-Coach-main/code/workflow/prompt/ws/intergroup_*.md
-上线prompt/intergroup_summary_v23.tmpl
+上线prompt/*.tmpl
+!上线prompt/example.tmpl
 上线prompt/*.pdf
 cross_lingual_test/results/
+
+# Generated model adapters may contain private provider/model identifiers.
+# Existing tracked adapters stay tracked; review before publishing new ones.
+Virtual-Coach-main/code/models/*.py
+!Virtual-Coach-main/code/models/__init__.py
+!Virtual-Coach-main/code/models/api_keys_template.py
+
+# Workflow outputs contain prompts, input data and request traces.
+**/workflow_log_*.json
+**/workflow_log_*.jsonl
+Virtual-Coach-main/code/workflow/workflow.json
+Virtual-Coach-main/code/workflow/workflow_test_input.json
+Virtual-Coach-main/code/workflow/test_input.json
+Virtual-Coach-main/code/workflow/analysis/analysis_node_type_and_name_data.txt
+Virtual-Coach-main/code/workflow/workflow_cli_skeleton/out/
 
 # Python
 __pycache__/
 *.py[cod]
 *.pyo
 .Python
-.venv/
+.venv*/
 venv/
 env/
 *.egg-info/

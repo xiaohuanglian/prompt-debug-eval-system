@@ -1,132 +1,29 @@
 [
   {
     "test_id": "en2zh_001",
-    "scenario": "standard_no_goal",
+    "scenario": "synthetic_borrowing",
     "input": {
-      "agent_persona": "Professional Physical Therapist",
       "output_language": "中文",
-      "training_focus": "Knee Protection",
-      "exercise_list": ["Wall Sit", "Step-ups", "Leg Raises"],
-      "investment_goal": null,
-      "is_risk_detected": false,
-      "performance_risk_notes": null
+      "topic": "Borrowing books",
+      "facts": ["Bring a library card", "Return books in fourteen days"]
     }
   },
   {
     "test_id": "en2zh_002",
-    "scenario": "standard_with_goal",
+    "scenario": "synthetic_catalog",
     "input": {
-      "agent_persona": "Running Specialist Coach",
       "output_language": "中文",
-      "training_focus": "Lower Body Strength",
-      "exercise_list": ["Squats", "Lunges", "Calf Raises", "Box Jumps"],
-      "investment_goal": "Complete a marathon pain-free",
-      "is_risk_detected": false,
-      "performance_risk_notes": null
+      "topic": "Finding books",
+      "facts": ["Search the catalog by title or author", "Use the shelf number to locate the book"]
     }
   },
   {
     "test_id": "en2zh_003",
-    "scenario": "risk_detected",
+    "scenario": "synthetic_reading_room",
     "input": {
-      "agent_persona": "Conservative Rehab Specialist",
       "output_language": "中文",
-      "training_focus": "Hip Mobility",
-      "exercise_list": ["Hip Circles", "Lunges"],
-      "investment_goal": null,
-      "is_risk_detected": true,
-      "performance_risk_notes": "Hip flexor strain risk — avoid deep flexion"
-    }
-  },
-  {
-    "test_id": "en2zh_004",
-    "scenario": "upper_body_no_goal",
-    "input": {
-      "agent_persona": "Dynamic Movement Coach",
-      "output_language": "中文",
-      "training_focus": "Shoulder Mobility",
-      "exercise_list": ["Arm Circles", "Shoulder Rolls", "Band Pull-aparts"],
-      "investment_goal": null,
-      "is_risk_detected": false,
-      "performance_risk_notes": null
-    }
-  },
-  {
-    "test_id": "en2zh_005",
-    "scenario": "core_with_goal_and_risk",
-    "input": {
-      "agent_persona": "Elite Performance Coach",
-      "output_language": "中文",
-      "training_focus": "Core Anti-Rotation Stability",
-      "exercise_list": ["Pallof Press", "Dead Bug", "Side Plank"],
-      "investment_goal": "Complete a triathlon",
-      "is_risk_detected": true,
-      "performance_risk_notes": "Lumbar compensation risk — maintain neutral spine"
-    }
-  },
-  {
-    "test_id": "en2zh_006",
-    "scenario": "ankle_stability_simple",
-    "input": {
-      "agent_persona": "Functional Training Expert",
-      "output_language": "中文",
-      "training_focus": "Ankle Stability",
-      "exercise_list": ["Single-leg Balance", "Heel Walks"],
-      "investment_goal": null,
-      "is_risk_detected": false,
-      "performance_risk_notes": null
-    }
-  },
-  {
-    "test_id": "en2zh_007",
-    "scenario": "full_body_coordination",
-    "input": {
-      "agent_persona": "Certified Athletic Trainer",
-      "output_language": "中文",
-      "training_focus": "Full Body Coordination",
-      "exercise_list": ["Cross-body Lunges", "Contralateral Limb Raises", "Balance Pad Stand"],
-      "investment_goal": "Improve athletic performance",
-      "is_risk_detected": false,
-      "performance_risk_notes": null
-    }
-  },
-  {
-    "test_id": "en2zh_008",
-    "scenario": "lower_back_risk",
-    "input": {
-      "agent_persona": "Yoga Therapist",
-      "output_language": "中文",
-      "training_focus": "Spinal Flexibility",
-      "exercise_list": ["Cat-Cow", "Child's Pose", "Downward Dog"],
-      "investment_goal": null,
-      "is_risk_detected": true,
-      "performance_risk_notes": "Lumbar disc pressure — avoid end-range flexion"
-    }
-  },
-  {
-    "test_id": "en2zh_009",
-    "scenario": "core_endurance",
-    "input": {
-      "agent_persona": "Strength and Conditioning Coach",
-      "output_language": "中文",
-      "training_focus": "Core Endurance",
-      "exercise_list": ["Dead Bugs", "Side Planks", "Glute Bridges"],
-      "investment_goal": null,
-      "is_risk_detected": false,
-      "performance_risk_notes": null
-    }
-  },
-  {
-    "test_id": "en2zh_010",
-    "scenario": "balance_elderly_risk",
-    "input": {
-      "agent_persona": "Senior Rehabilitation Consultant",
-      "output_language": "中文",
-      "training_focus": "Balance and Fall Prevention",
-      "exercise_list": ["Single-leg Stance", "Heel-to-Toe Walk", "Balance Pad Training"],
-      "investment_goal": "Prevent falls and maintain independence",
-      "is_risk_detected": true,
-      "performance_risk_notes": "Ankle instability — ensure chair support nearby"
+      "topic": "Using the reading room",
+      "facts": ["The reading room is on the first floor", "Return reference books to the desk after reading"]
     }
   }
 ]

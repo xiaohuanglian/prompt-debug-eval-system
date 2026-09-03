@@ -310,7 +310,12 @@ def build_parser() -> argparse.ArgumentParser:
         default=DEFAULT_BASE_URL,
         help=f"网关地址（默认: {DEFAULT_BASE_URL}）",
     )
-    parser.add_argument("--api-key", required=True, help="API Key（将放入 Bearer 头）")
+    parser.add_argument(
+        "--api-key",
+        default=(os.getenv("GATEWAY_API_KEY", "").strip()
+                 or os.getenv("STREAMBRIDGE_API_KEY", "").strip()),
+        help="网关 API Key（默认读取 GATEWAY_API_KEY 或 STREAMBRIDGE_API_KEY；将放入 Bearer 头）",
+    )
     parser.add_argument("--timeout", type=float, default=10.0, help="HTTP 超时秒数（默认: 10）")
 
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -503,7 +508,7 @@ def run(args: argparse.Namespace) -> int:
         timeout=args.timeout,
     )
     if not cfg.api_key:
-        raise CliError("参数错误：--api-key 不能为空")
+        raise CliError("参数错误：请设置 GATEWAY_API_KEY / STREAMBRIDGE_API_KEY，或提供非空的 --api-key")
 
     handler = getattr(args, "handler", None)
     if handler is None:

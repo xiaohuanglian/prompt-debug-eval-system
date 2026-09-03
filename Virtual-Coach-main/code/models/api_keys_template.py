@@ -27,3 +27,8 @@ QWEN_MODEL=""
 KEDAXUNFEI_URL=""
 KEDAXUNFEI_API_KEY=""
 KEDAXUNFEI_MODEL=""
+
+# kimi (separate credentials; never reuse OPENAI_API_KEY implicitly)
+KIMI_URL=""
+KIMI_API_KEY=""
+KIMI_MODEL=""

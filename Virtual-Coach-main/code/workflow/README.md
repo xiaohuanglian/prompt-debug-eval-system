@@ -87,20 +87,22 @@
 命令行启动后端：
 
 ```shell
-uvicorn server:app --reload --port 8000
+python -m uvicorn server:app --host 127.0.0.1 --port 8000 --no-proxy-headers
 ```
 
-直接点击启动前端：
+在浏览器访问后端提供的同源页面（不要直接以 file:// 打开 HTML）：
 
 ```shell
-workflow.html
+http://127.0.0.1:8000/
 ```
+
+该服务仅供本机开发使用，拒绝远程客户端与其他来源网页。`example_path` 只能指向 `example/` 下的 JSON。没有多用户认证，不适合通过反向代理或端口转发公开部署。
 
 ## 4. 维护防护
 
-1. 下载最新文件到 workflow 文件夹下，包括 nodes、prompt 文件夹（从内部后端仓库同步）
+1. 公开版包含研究用节点定义；节点执行依赖未包含的上游运行引擎。需自行提供兼容实现，不能直接运行这些节点。
 2. 修改代码中对LLM的调用方式，当前采用的是llm_api.py文件，可以使用类似实现的llm相关调用函数进行相关功能替代
 
 ## 5. 相关文档
 
-* 使用 prompt 生成工作流配置文件（见内部文档）
+* [仓库安全与运行边界](../../../../SECURITY.md)

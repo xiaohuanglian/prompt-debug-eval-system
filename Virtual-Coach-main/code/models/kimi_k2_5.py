@@ -6,7 +6,7 @@ import time
 import urllib.error
 import urllib.request
 
-CONFIG_PREFIX = "OPENAI"
+CONFIG_PREFIX = "KIMI"
 API_KEY = os.getenv(CONFIG_PREFIX + "_API_KEY", "")
 BASE_URL = "https://api.moonshot.cn/v1"
 MODEL = "kimi-k2.5"

@@ -1,6 +1,8 @@
 # Virtual Coach (虚拟教练)
 
-基于大语言模型的智能虚拟教练交互式课程生成系统
+基于大语言模型的 Prompt 开发与评测工具，包含 Virtual Coach 衍生研究示例。
+
+公开版安装入口见[仓库首页](../README.md)，发布边界见[安全说明](../SECURITY.md)，上游授权状态见[来源说明](../THIRD_PARTY_NOTICES.md)。
 
 ## 📖 项目简介
 
@@ -53,7 +55,7 @@ Virtual-Coach/
 
 ### 环境要求
 
-- Python 3.8+
+- Python 3.10+
 - 相关依赖包（详见pyproject.toml）
 
 ### 安装步骤
@@ -69,7 +71,7 @@ cd prompt-debug-eval-system/Virtual-Coach-main
 
 ```bash
 # 推荐使用conda创建虚拟环境
-conda create -n vc python=3.8
+conda create -n vc python=3.10
 conda activate vc
 
 # 安装项目包
@@ -148,3 +150,7 @@ data/prompt/{ScenarioName}/
 - `eval_prompt_DecisionScenario4.py` - 决策场景4评估
 
 评估数据位于 `data/eval/` 目录，评估结果保存在 `data/eval_result/` 目录。
+
+## 历史示例限制
+
+`code/eval/eval_prompt_DecisionScenario*.py` 和训练总结脚本保留为历史研究参考，依赖的部分 Prompt 或数据集未随公开版发布，不能直接作为开箱即用示例运行。请通过 `main.py` 或 GUI 使用 `SampleScenario` 文档生成自己的评测脚本。工作流节点实现还依赖上游执行引擎，当前仓库主要提供配置生成和研究参考。

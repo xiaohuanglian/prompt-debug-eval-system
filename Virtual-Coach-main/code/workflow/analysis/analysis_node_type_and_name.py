@@ -1,8 +1,9 @@
+from pathlib import Path
 import json
 import re
 
 
-input_file = "/Users/djh/Documents/备份/一般/工作/代码/LLM/github/Virtual-Coach/code/workflow/example/wf_setup_s03_inter.json"
+input_file = Path(__file__).resolve().parents[1] / "example" / "wf_setup_s03_inter.json"
 
 all_nums = {}
 

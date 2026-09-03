@@ -515,7 +515,7 @@
       metaLogPath = null;
       hideStatus();
 
-      const resp = await fetch('http://localhost:8000/api/start', {
+      const resp = await fetch('/api/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ demand, example_path })
@@ -565,7 +565,7 @@
     function streamLogs(runId) {
       if (es) { try { es.close(); } catch (_) {} es = null; }
 
-      es = new EventSource(`http://localhost:8000/api/stream/${encodeURIComponent(runId)}`);
+      es = new EventSource(`/api/stream/${encodeURIComponent(runId)}`);
 
       // 监听 meta 事件（元数据）
       es.addEventListener("meta", (ev) => {
