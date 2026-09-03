@@ -27,6 +27,12 @@
 
 1. **历史隐私**：普通提交无法清除旧邮箱、旧路径及被替换的业务示例。若要彻底清理当前仓库的可达历史，需要明确批准重写公开历史；已有克隆与缓存仍可能保留旧内容。
 2. **上游来源**：上游 `pyproject.toml` 声明 MIT，但未获取独立许可证文本与完整版权声明；细节见 [来源说明](../THIRD_PARTY_NOTICES.md)。
-3. **非代码附件与未取得的状态**：没有将本地忽略文件、GitHub 私有安全告警、仓库权限设置或第三方克隆视为已审计对象。后续新增附件与业务示例应单独复核。
+3. **非代码附件与未取得的状态**：没有将本地忽略文件、完整仓库权限设置或第三方克隆视为已审计对象。后续新增附件与业务示例应单独复核。
+
+## 发布验证
+
+修复提交 `97fa7ce` 的 49 项离线回归测试通过，Python/JSON 解析检查、完整暂存区扫描通过；[GitHub Actions 检查](https://github.com/xiaohuanglian/prompt-debug-eval-system/actions/runs/33740932237)通过。
+
+发布后读取 GitHub 密钥告警接口时发现仓库原先未启用密钥扫描。现已启用仓库级密钥扫描和推送保护；没有启用向供应商验证凭据有效性的选项。开启状态不等于 GitHub 的历史扫描已经结束，也不能替代本记录中的人工判断。
 
 复核命令：`python scripts/check_public_release.py`、`python scripts/check_public_release.py --staged`、`python scripts/check_public_release.py --history`、`python -m unittest discover -s tests -v`（测试依赖见 `tests/requirements.txt`）。历史命令预期继续报告尚未重写的旧记录。
