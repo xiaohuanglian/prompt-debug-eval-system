@@ -1,0 +1,128 @@
+[
+  {
+    "input": {
+      "user_input": "张伟说他想去北京。"
+    },
+    "output": {
+      "name": "张伟",
+      "gender": "male"
+    }
+  },
+  {
+    "input": {
+      "user_input": "李娜说她正在学习。"
+    },
+    "output": {
+      "name": "李娜",
+      "gender": "female"
+    }
+  },
+  {
+    "input": {
+      "user_input": "我的朋友叫王强。"
+    },
+    "output": {
+      "name": "王强",
+      "gender": "unknown"
+    }
+  },
+  {
+    "input": {
+      "user_input": "他今天没来上班。"
+    },
+    "output": {
+      "name": null,
+      "gender": "male"
+    }
+  },
+  {
+    "input": {
+      "user_input": "她昨天去了超市。"
+    },
+    "output": {
+      "name": null,
+      "gender": "female"
+    }
+  },
+  {
+    "input": {
+      "user_input": "如果你看到Sarah，请告诉她我来了。"
+    },
+    "output": {
+      "name": "Sarah",
+      "gender": "female"
+    }
+  },
+  {
+    "input": {
+      "user_input": "请帮我联系John，他很有钱。"
+    },
+    "output": {
+      "name": "John",
+      "gender": "male"
+    }
+  },
+  {
+    "input": {
+      "user_input": "今天天气不错，小明来找我玩。"
+    },
+    "output": {
+      "name": "小明",
+      "gender": "unknown"
+    }
+  },
+  {
+    "input": {
+      "user_input": "请问这个包裹是给谁的？"
+    },
+    "output": {
+      "name": null,
+      "gender": "unknown"
+    }
+  },
+  {
+    "input": {
+      "user_input": "陈晨说她很喜欢唱歌。"
+    },
+    "output": {
+      "name": "陈晨",
+      "gender": "female"
+    }
+  },
+  {
+    "input": {
+      "user_input": "他正在开车回家。"
+    },
+    "output": {
+      "name": null,
+      "gender": "male"
+    }
+  },
+  {
+    "input": {
+      "user_input": "她们正在讨论问题。"
+    },
+    "output": {
+      "name": null,
+      "gender": "female"
+    }
+  },
+  {
+    "input": {
+      "user_input": "Tom is here."
+    },
+    "output": {
+      "name": "Tom",
+      "gender": "male"
+    }
+  },
+  {
+    "input": {
+      "user_input": "It is a cat."
+    },
+    "output": {
+      "name": null,
+      "gender": "unknown"
+    }
+  }
+]

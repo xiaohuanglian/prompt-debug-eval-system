@@ -1,0 +1,25 @@
+code/models/api_keys.py
+code/workflow/llm_key.py
+code/workflow/workflow_cli_skeleton/src/workflow_synth/llm_key.py
+
+__pycache__/
+*.pyo
+*.cfg
+*.pyc
+.DS_Store
+
+# Local GUI/deploy configuration
+../gui_app/.deploy_config/
+.deploy_config/
+
+# Generated runtime artifacts
+data/eval_result/
+data/prompt/**/.deploy_log.json
+
+# Local paper/build artifacts
+paper/**/*.aux
+paper/**/*.bbl
+paper/**/*.blg
+paper/**/*.log
+paper/**/*.out
+paper/**/*.synctex.gz

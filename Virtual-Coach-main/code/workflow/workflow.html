@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Workflow 可视化</title>
+
+  <style>
+    :root{
+      --bg: #0b1220;
+      --bg2:#0a0f1a;
+      --card: rgba(255,255,255,.06);
+      --border: rgba(255,255,255,.10);
+      --text:#e8eefc;
+      --muted:#a9b4cc;
+      --accent:#2dd4bf; /* mint */
+      --accent2:#60a5fa; /* soft blue */
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+      --radius2: 12px;
+    }
+    *{box-sizing:border-box;}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 20% -10%, rgba(45,212,191,.25), transparent 60%),
+        radial-gradient(900px 500px at 110% 10%, rgba(96,165,250,.22), transparent 55%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      overflow:hidden;
+    }
+
+    .app{height:100%;display:flex;flex-direction:column;}
+    header{padding:18px 22px 10px;display:flex;align-items:center;gap:14px;}
+    header h1{font-size:18px;margin:0;letter-spacing:.2px;font-weight:650;}
+    header .hint{color:var(--muted);font-size:12px;}
+
+    .log-area{
+      flex:1;
+      overflow:auto;
+      padding: 10px 22px 92px; /* 给底部输入条让空间 */
+      scroll-behavior:smooth;
+    }
+    .log-grid{display:flex;flex-direction:column;gap:12px;}
+
+    .log-card{
+      position:relative;
+      background: linear-gradient(180deg, var(--card), rgba(255,255,255,.04));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 14px 14px 12px;
+    }
+
+    .ts{
+      position:absolute;
+      top:10px;left:12px;
+      font-size:12px;color:var(--muted);
+      padding:4px 8px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.20);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .log-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;}
+    .log-type{font-size:14px;font-weight:800;line-height:1.2;letter-spacing:.2px;margin:0;padding-top:18px;}
+    .log-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:12px;}
+
+    .badge{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:4px 8px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+    }
+    .badge .dot{
+      width:8px;height:8px;border-radius:999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(45,212,191,.15);
+    }
+
+    .payload{
+      margin-top:6px;
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius2);
+      padding: 10px 12px;
+      overflow:hidden;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .payload:hover{
+      border-color: rgba(45,212,191,.30);
+      background: rgba(0,0,0,.28);
+    }
+    pre.json{
+      margin:0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12px;line-height:1.45;color:#eaf2ff;
+      white-space: pre-wrap;   /* 自动换行 */
+      word-break: break-word;  /* 超长 token 换行 */
+      tab-size:2;
+    }
+    .payload-toggle{
+      display: block;
+      margin-top: 8px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--accent);
+      padding: 4px 0;
+      border-top: 1px solid rgba(255,255,255,.08);
+      user-select: none;
+    }
+
+    /* Bottom input bar */
+    .input-bar{
+      position:fixed;left:0;right:0;bottom:0;
+      padding: 14px 22px;
+      background: linear-gradient(180deg, rgba(11,18,32,0), rgba(11,18,32,.92) 35%, rgba(11,18,32,.98));
+      border-top: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .input-row{
+      display:grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap:10px;
+      align-items:center;
+      max-width: 1200px;
+      margin:0 auto;
+    }
+    input[type="text"]{
+      width:100%;height:40px;padding:0 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      outline:none;
+    }
+    input[type="text"]::placeholder{color: rgba(233,238,252,.55);}
+    input[type="text"]:focus{
+      border-color: rgba(45,212,191,.55);
+      box-shadow: 0 0 0 4px rgba(45,212,191,.14);
+    }
+    button{
+      height:40px;padding:0 14px;border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(45,212,191,.95), rgba(45,212,191,.70));
+      color:#04231f;font-weight:900;cursor:pointer;
+      box-shadow: 0 10px 22px rgba(45,212,191,.18);
+    }
+    button:disabled{opacity:.55;cursor:not-allowed;box-shadow:none;}
+
+    .footer-hint{
+      max-width:1200px;margin:8px auto 0;
+      font-size:12px;color: var(--muted);
+      display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
+    }
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+
+    .log-area::-webkit-scrollbar{width:10px;}
+    .log-area::-webkit-scrollbar-thumb{background: rgba(255,255,255,.14); border-radius: 999px;}
+    .log-area::-webkit-scrollbar-track{background: rgba(0,0,0,.10);}
+
+    /* 浮动状态块 */
+    .status-float{
+      position:fixed;
+      top:20px;
+      right:20px;
+      padding:14px 20px;
+      background: linear-gradient(180deg, var(--card), rgba(255,255,255,.08));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      font-size:14px;
+      color:var(--text);
+      z-index:1000;
+      display:none;
+      min-width:200px;
+      max-width:400px;
+    }
+    .status-float.show{
+      display:block;
+    }
+    .status-float .status-text{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .status-float .status-dots{
+      display:inline-block;
+      min-width:24px;
+      text-align:left;
+    }
+    .status-float.completed{
+      border-color: var(--accent);
+      background: linear-gradient(180deg, rgba(45,212,191,.15), rgba(45,212,191,.08));
+    }
+    .status-float .location{
+      margin-top:6px;
+      font-size:12px;
+      color:var(--muted);
+      word-break:break-all;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <header>
+      <h1>Workflow 可视化</h1>
+      <div class="hint">实时监控 JSONL 日志并以卡片形式渲染</div>
+    </header>
+
+    <main class="log-area">
+      <div id="logGrid" class="log-grid"></div>
+    </main>
+
+    <!-- 浮动状态块 -->
+    <div id="statusFloat" class="status-float">
+      <div class="status-text">
+        <span id="statusMessage">正在推理生成中</span>
+        <span id="statusDots" class="status-dots">...</span>
+      </div>
+      <div id="statusTimer" class="location" style="display:none;margin-top:4px;"></div>
+      <div id="statusLocation" class="location" style="display:none;"></div>
+    </div>
+
+    <!-- 输入放到页面最下面 -->
+    <div class="input-bar">
+      <div class="input-row">
+        <input id="demand" type="text" placeholder="请输入你的需求" />
+        <input id="examplePath" type="text" placeholder="标准化输出例子路径（可空）" />
+        <button id="startBtn">开始</button>
+      </div>
+      <div class="footer-hint">
+        <div>Run ID：<span id="runId" class="mono">-</span></div>
+        <div>Log：<span id="logPath" class="mono">-</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const logGrid = document.getElementById('logGrid');
+    const runIdEl = document.getElementById('runId');
+    const logPathEl = document.getElementById('logPath');
+    const startBtn = document.getElementById('startBtn');
+    const demandEl = document.getElementById('demand');
+    const examplePathEl = document.getElementById('examplePath');
+    const statusFloat = document.getElementById('statusFloat');
+    const statusMessage = document.getElementById('statusMessage');
+    const statusDots = document.getElementById('statusDots');
+    const statusTimer = document.getElementById('statusTimer');
+    const statusLocation = document.getElementById('statusLocation');
+
+    // 状态管理
+    let statusInterval = null;
+    let timerInterval = null;
+    let startTime = null;
+    let metaLogPath = null;
+    let isCompleted = false;
+
+    // 检查 payload 中是否有 need_more_knowledge 字段且为 false
+    function checkNoMoreKnowledge(payload) {
+      if (!payload || typeof payload !== 'object') return false;
+      
+      // 直接检查 payload.need_more_knowledge
+      if ('need_more_knowledge' in payload && payload.need_more_knowledge === false) {
+        return true;
+      }
+      
+      // 检查 payload 中嵌套的对象（如解析结果）
+      for (const key in payload) {
+        const value = payload[key];
+        if (value && typeof value === 'object') {
+          if ('need_more_knowledge' in value && value.need_more_knowledge === false) {
+            return true;
+          }
+        }
+      }
+      
+      return false;
+    }
+
+    // 检查 payload 中是否有 own_test_input 字段且为 true
+    function checkOwnTestInput(payload) {
+      if (!payload || typeof payload !== 'object') return false;
+      if ('own_test_input' in payload && payload.own_test_input === true) {
+        return true;
+      }
+      return false;
+    }
+
+    // 显示推理中状态
+    function showGeneratingStatus() {
+      isCompleted = false;
+      statusFloat.classList.remove('completed');
+      statusMessage.textContent = '正在推理生成中';
+      statusLocation.style.display = 'none';
+      statusFloat.classList.add('show');
+      
+      // 记录开始时间
+      startTime = Date.now();
+      
+      // 显示计时器
+      statusTimer.style.display = 'block';
+      updateTimer();
+      
+      // 动态显示1～6个点
+      let dotCount = 1;
+      statusInterval = setInterval(() => {
+        statusDots.textContent = '.'.repeat(dotCount);
+        dotCount = (dotCount % 6) + 1;
+      }, 300);
+      
+      // 每秒更新计时器
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+    
+    // 更新计时器显示
+    function updateTimer() {
+      if (!startTime) return;
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      statusTimer.textContent = `已用时: ${elapsed}秒`;
+    }
+
+    // 显示完成状态
+    function showCompletedStatus() {
+      isCompleted = true;
+      if (statusInterval) {
+        clearInterval(statusInterval);
+        statusInterval = null;
+      }
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      
+      // 显示最终用时
+      if (startTime) {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        statusTimer.textContent = `总用时: ${elapsed}秒`;
+        statusTimer.style.display = 'block';
+      }
+      
+      statusFloat.classList.add('completed');
+      statusMessage.textContent = '生成完成';
+      statusDots.textContent = '';
+      
+      if (metaLogPath) {
+        // statusLocation.textContent = `位置：${metaLogPath}`;
+        statusLocation.textContent = `完整工作流：workflow.json\n测试用工作流：workflow_test_input.json\n测试用输入：test_input.json\n完整日志：${metaLogPath}`;
+        statusLocation.style.display = 'block';
+      } else {
+        statusLocation.style.display = 'none';
+      }
+      
+      startTime = null;
+    }
+
+    // 隐藏状态块
+    function hideStatus() {
+      if (statusInterval) {
+        clearInterval(statusInterval);
+        statusInterval = null;
+      }
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      statusFloat.classList.remove('show', 'completed');
+      statusTimer.style.display = 'none';
+      statusLocation.style.display = 'none';
+      startTime = null;
+    }
+
+    function safeJsonStringify(obj) {
+      try { return JSON.stringify(obj, null, 2); }
+      catch (e) { return String(obj); }
+    }
+
+    function truncateLine(line, maxLength = 50) {
+      if (line.length <= maxLength) {
+        return line;
+      }
+      return line.substring(0, maxLength) + '...';
+    }
+
+    function truncateJsonLines(jsonStr, firstLines = 2, lastLines = 2, maxLineLength = 50) {
+      const lines = jsonStr.split('\n');
+      if (lines.length <= firstLines + lastLines) {
+        // 即使行数不多，也要截断超长的行
+        const processedLines = lines.map(line => truncateLine(line, maxLineLength));
+        const processedText = processedLines.join('\n');
+        return { 
+          text: processedText, 
+          isTruncated: processedText !== jsonStr,
+          fullText: jsonStr 
+        };
+      }
+      // 处理前 N 行
+      const first = lines.slice(0, firstLines).map(line => truncateLine(line, maxLineLength)).join('\n');
+      // 处理最后 N 行
+      const last = lines.slice(-lastLines).map(line => truncateLine(line, maxLineLength)).join('\n');
+      const indent = lines[firstLines]?.match(/^\s*/)?.[0] || '';
+      return {
+        text: first + '\n' + indent + '...\n' + last,
+        isTruncated: true,
+        fullText: jsonStr
+      };
+    }
+
+    function renderLogItem(item) {
+      // item = {run_id, ts, type, payload}
+      const card = document.createElement('div');
+      card.className = 'log-card';
+
+      const ts = document.createElement('div');
+      ts.className = 'ts';
+      ts.textContent = item.ts || '';
+      card.appendChild(ts);
+
+      const top = document.createElement('div');
+      top.className = 'log-top';
+
+      const left = document.createElement('div');
+
+      const title = document.createElement('h3');
+      title.className = 'log-type';
+      title.textContent = item.type || '(unknown type)';
+
+      const meta = document.createElement('div');
+      meta.className = 'log-meta';
+
+      const badge = document.createElement('span');
+      badge.className = 'badge';
+      badge.innerHTML = `<span class="dot"></span><span class="mono">${item.run_id || '-'}</span>`;
+
+      meta.appendChild(badge);
+
+      left.appendChild(title);
+      left.appendChild(meta);
+
+      top.appendChild(left);
+      card.appendChild(top);
+
+      const payloadWrap = document.createElement('div');
+      payloadWrap.className = 'payload';
+
+      const jsonStr = safeJsonStringify(item.payload ?? null);
+      const truncated = truncateJsonLines(jsonStr, 2, 2);
+
+      const pre = document.createElement('pre');
+      pre.className = 'json';
+      pre.textContent = truncated.text;
+
+      payloadWrap.appendChild(pre);
+
+      // 如果被截断，添加展开/折叠功能
+      if (truncated.isTruncated) {
+        payloadWrap.classList.add('collapsed');
+        payloadWrap.dataset.fullText = truncated.fullText;
+        payloadWrap.dataset.expanded = 'false';
+
+        const toggle = document.createElement('div');
+        toggle.className = 'payload-toggle';
+        toggle.textContent = '点击展开完整内容';
+        payloadWrap.appendChild(toggle);
+
+        payloadWrap.addEventListener('click', function() {
+          const isExpanded = this.dataset.expanded === 'true';
+          if (isExpanded) {
+            // 折叠
+            this.classList.add('collapsed');
+            pre.textContent = truncated.text;
+            toggle.textContent = '点击展开完整内容';
+            this.dataset.expanded = 'false';
+          } else {
+            // 展开
+            this.classList.remove('collapsed');
+            pre.textContent = truncated.fullText;
+            toggle.textContent = '点击折叠';
+            this.dataset.expanded = 'true';
+          }
+        });
+      }
+
+      card.appendChild(payloadWrap);
+
+      logGrid.appendChild(card);
+      card.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+
+    function clearLogs() {
+      logGrid.innerHTML = '';
+    }
+
+    // 你后端 /api/start 返回的 JSON 至少要包含 run_id，否则你会得到 /api/stream/undefined
+    async function startRun() {
+      const demand = demandEl.value.trim();
+      const example_path = examplePathEl.value.trim();
+      if (!demand) return;
+
+      startBtn.disabled = true;
+      clearLogs();
+      runIdEl.textContent = '-';
+      logPathEl.textContent = '-';
+      metaLogPath = null;
+      hideStatus();
+
+      const resp = await fetch('http://localhost:8000/api/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ demand, example_path })
+      });
+
+      if (!resp.ok) {
+        const txt = await resp.text();
+        renderLogItem({
+          ts: new Date().toISOString(),
+          type: '启动失败',
+          run_id: '-',
+          payload: { status: resp.status, body: txt }
+        });
+        startBtn.disabled = false;
+        return;
+      }
+
+      const data = await resp.json();
+      const run_id = data.run_id;
+      runIdEl.textContent = run_id || '-';
+      const logPath = data.log_path || data.log_jsonl_path || '-';
+      logPathEl.textContent = logPath;
+      
+      // 保存 log_path 以备后用
+      if (logPath !== '-') {
+        metaLogPath = logPath;
+      }
+
+      if (!run_id) {
+        renderLogItem({
+          ts: new Date().toISOString(),
+          type: '后端返回缺少 run_id',
+          run_id: '-',
+          payload: data
+        });
+        startBtn.disabled = false;
+        return;
+      }
+
+      // 开始显示推理状态
+      showGeneratingStatus();
+      streamLogs(run_id);
+    }
+
+    // SSE 版本：后端需返回 text/event-stream
+    let es = null;
+    function streamLogs(runId) {
+      if (es) { try { es.close(); } catch (_) {} es = null; }
+
+      es = new EventSource(`http://localhost:8000/api/stream/${encodeURIComponent(runId)}`);
+
+      // 监听 meta 事件（元数据）
+      es.addEventListener("meta", (ev) => {
+        try {
+          const meta = JSON.parse(ev.data);
+          // 保存 meta 中的 log_path
+          if (meta.log_path) {
+            metaLogPath = meta.log_path;
+          }
+          
+          // 优先使用 meta 中的 ts 字段（服务器时间），如果没有则使用客户端时间
+          const ts = meta.ts || new Date().toISOString().replace('T', ' ').replace(/\.\d+Z$/, '');
+          renderLogItem({
+            ts: ts,
+            type: 'meta',
+            run_id: meta.run_id || runId,
+            payload: meta
+          });
+        } catch (e) {
+          renderLogItem({
+            ts: new Date().toISOString().replace('T', ' ').replace(/\.\d{3}Z$/, '').replace(/\.\d+Z$/, ''),
+            type: 'meta 解析失败',
+            run_id: runId,
+            payload: { raw: ev.data, error: String(e) }
+          });
+        }
+      });
+
+      // 监听 log 事件（日志数据）
+      es.addEventListener("log", (ev) => {
+        if (!ev.data) return;
+        try {
+          const item = JSON.parse(ev.data);
+          renderLogItem(item);
+          
+          // 检查是否完成（ own_test_input 为 true）
+          if (!isCompleted && checkOwnTestInput(item.payload)) { // && checkNoMoreKnowledge(item.payload) 检查need_more_knowledge 为 false 暂时停用
+            showCompletedStatus();
+          }
+        } catch (e) {
+          renderLogItem({
+            ts: new Date().toISOString(),
+            type: '日志解析失败',
+            run_id: runId,
+            payload: { raw: ev.data, error: String(e) }
+          });
+        }
+      });
+
+      es.onerror = () => {
+        // 浏览器会自动重连，这里只提示一次也行；你想去重我也能给你加
+        renderLogItem({
+          ts: new Date().toISOString(),
+          type: 'SSE 连接中断/重试中',
+          run_id: runId,
+          payload: {}
+        });
+      };
+
+      startBtn.disabled = false;
+    }
+
+    startBtn.addEventListener('click', startRun);
+    demandEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') startRun(); });
+  </script>
+</body>
+</html>

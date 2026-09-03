@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "virtual-coach"
+version = "1.0.0"
+description = "基于大语言模型的智能虚拟教练交互式课程生成系统"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "Virtual Coach Team" }]
+keywords = [
+    "ai",
+    "llm",
+    "virtual-coach",
+    "education",
+    "training",
+    "metadata",
+    "agent",
+]
+dependencies = [
+    "openai>=1.0.0",
+    "python-docx>=1.0.0",
+    "requests>=2.25.0",
+    "tqdm>=4.60.0",
+    "typing-extensions>=3.10.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.10",
+    "black>=21.0",
+    "flake8>=3.8",
+    "mypy>=0.800",
+]
+docs = ["sphinx>=4.0", "sphinx-rtd-theme>=0.5"]
+
+[project.urls]
+Homepage = "https://github.com/dujh22/Virtual-Coach"
+Repository = "https://github.com/dujh22/Virtual-Coach"
+Issues = "https://github.com/dujh22/Virtual-Coach/issues"
+
+[tool.setuptools.packages.find]
+where = ["code"]

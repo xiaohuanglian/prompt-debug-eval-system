@@ -1,0 +1,52 @@
+<!doctype html>
+<meta charset="utf-8"/>
+<body>
+  <h3>Workflow 可视化</h3>
+  <div>
+    <input id="demand" placeholder="请输入需求" style="width:420px"/>
+    <input id="path" placeholder="标准化输出例子路径(可空)" style="width:420px"/>
+    <button id="start">开始</button>
+  </div>
+
+  <pre id="out" style="height:520px; overflow:auto; border:1px solid #ccc; padding:10px;"></pre>
+
+  <script>
+    const out = document.getElementById("out");
+    const append = (s) => { out.textContent += s + "\n"; out.scrollTop = out.scrollHeight; };
+
+    document.getElementById("start").onclick = async () => {
+      out.textContent = "";
+
+      const demand = document.getElementById("demand").value;
+      const example_path = document.getElementById("path").value;
+
+      const res = await fetch("http://localhost:8000/api/start", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ demand, example_path })
+      });
+      
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({ detail: res.statusText }));
+        append(`[错误] ${res.status}: ${errorData.detail || errorData.message || '未知错误'}`);
+        return;
+      }
+      
+      const data = await res.json();
+      append("started: " + JSON.stringify(data));
+      
+      if (!data.run_id) {
+        append("[错误] 响应中缺少 run_id");
+        return;
+      }
+
+      const es = new EventSource(`http://localhost:8000/api/stream/${data.run_id}`);
+      es.addEventListener("meta", (e) => append("[meta] " + e.data));
+      es.addEventListener("log", (e) => {
+        const obj = JSON.parse(e.data);
+        append(`[${obj.ts}] ${obj.type} ${JSON.stringify(obj.payload)}`);
+      });
+      es.onerror = () => append("[error] stream disconnected");
+    };
+  </script>
+</body>

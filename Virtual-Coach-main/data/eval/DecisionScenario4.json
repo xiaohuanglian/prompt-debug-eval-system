@@ -1,0 +1,163 @@
+[
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 8,
+          "error_reps": 2,
+          "most_frequent_error_type": "节奏偏快"
+        },
+        "set_reps_next": 10,
+        "prev_service": {"service_name": null, "stage": null},
+        "exercise_name": "卧推"
+      },
+      "output": {
+        "service_name": "check_confirm",
+        "stage": "intra-set",
+        "trigger": {
+          "type": "consecutive_same_error",
+          "error_severity": "normal",
+          "threshold_n": 3
+        }
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 3,
+          "error_reps": 5,
+          "most_frequent_error_type": "膝内扣"
+        },
+        "set_reps_next": 8,
+        "prev_service": {"service_name": null, "stage": null},
+        "exercise_name": "深蹲"
+      },
+      "output": {
+        "service_name": "detail_guide",
+        "stage": "pre-set",
+        "trigger": {
+          "type": "consecutive_same_error",
+          "error_severity": "severe",
+          "threshold_n": 2
+        }
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 6,
+          "error_reps": 0,
+          "most_frequent_error_type": null
+        },
+        "set_reps_next": 6,
+        "prev_service": {"service_name": null, "stage": null},
+        "exercise_name": "引体向上"
+      },
+      "output": {
+        "service_name": "sense_find",
+        "stage": "intra-set",
+        "trigger": {
+          "type": "rep_equals",
+          "rep_n": 3
+        }
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 9,
+          "error_reps": 1,
+          "most_frequent_error_type": "停顿不足"
+        },
+        "set_reps_next": 12,
+        "prev_service": {"service_name": null, "stage": null},
+        "exercise_name": "俯卧撑"
+      },
+      "output": {
+        "service_name": "check_confirm",
+        "stage": "intra-set",
+        "trigger": {
+          "type": "consecutive_same_error",
+          "error_severity": "normal",
+          "threshold_n": 4
+        }
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 2,
+          "error_reps": 6,
+          "most_frequent_error_type": "下背过度弯曲"
+        },
+        "set_reps_next": 8,
+        "prev_service": {"service_name": null, "stage": null},
+        "exercise_name": "硬拉"
+      },
+      "output": {
+        "service_name": "detail_guide",
+        "stage": "pre-set",
+        "trigger": {
+          "type": "consecutive_same_error",
+          "error_severity": "severe",
+          "threshold_n": 2
+        }
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 12,
+          "error_reps": 0,
+          "most_frequent_error_type": null
+        },
+        "set_reps_next": 12,
+        "prev_service": {"service_name": "check_confirm", "stage": "intra-set"},
+        "exercise_name": "肩推"
+      },
+      "output": {
+        "service_name": "none",
+        "stage": "none"
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 7,
+          "error_reps": 3,
+          "most_frequent_error_type": "肩放置过前"
+        },
+        "set_reps_next": 10,
+        "prev_service": {"service_name": null, "stage": null},
+        "exercise_name": "杠铃卧推"
+      },
+      "output": {
+        "service_name": "detail_guide",
+        "stage": "pre-set",
+        "trigger": {
+          "type": "consecutive_same_error",
+          "error_severity": "severe",
+          "threshold_n": 3
+        }
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 10,
+          "error_reps": 0,
+          "most_frequent_error_type": null
+        },
+        "set_reps_next": 15,
+        "prev_service": {"service_name": null, "stage": null},
+        "exercise_name": "卷腹"
+      },
+      "output": {
+        "service_name": "sense_find",
+        "stage": "intra-set",
+        "trigger": {
+          "type": "rep_equals",
+          "rep_n": 6
+        }
+      }
+    }
+  ]

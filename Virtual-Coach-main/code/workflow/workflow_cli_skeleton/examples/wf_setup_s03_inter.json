@@ -1,0 +1,817 @@
+{
+    "service_s03":{
+        "start_node": "receive_00",
+        "listen_at_start": true,
+        "input_parameters": {
+        },
+        "nodes":[
+            {
+                "id": 0,
+                "node_type": "receive_message",
+                "node_name": "receive_00",
+                "key_node": true,
+                "msg_queue": true,
+                "input_map":{
+                },
+                "choice_map":{
+                    "default": "judge_00"
+                },
+                "attrs":{
+                }
+            },
+            {
+                "id": 1,
+                "node_type": "judge_motion",
+                "node_name": "judge_00",
+                "key_node": true,
+                "input_map":{
+                    "pkg": "receive_00.pkg"
+                },
+                "choice_map":{
+                    "default": "audio_dispatch_00"
+                },
+                "attrs":{
+                }
+            },
+            {
+                "id": 2,
+                "node_type": "send_audio_dispatch",
+                "node_name": "audio_dispatch_00",
+                "key_node": true,
+                "input_map":{
+                    "pkg_step": "judge_00.pkg_step", 
+                    "adjust": "judge_00.adjust",
+                    "status": "judge_00.status"
+                },
+                "choice_map":{
+                    "good": "finish",
+                    "improved": "receive_01",
+                    "not_improved": "receive_01",
+                    "other_problem": "receive_01"
+                },
+                "attrs":{
+                    "audio_url": {
+                        "good": {
+                            "type": "url",
+                            "url": "https://example.com/media/service_audio/good_0.wav",
+                            "text": "厉害，一次就调整到位了，咱们继续。"
+                        },
+                        "improved": {
+                            "type": "url",
+                            "url": "https://example.com/media/service_audio/error_0_qukuan.wav",
+                            "text": "这次深蹲屈髋的幅度还不够，要再多点，你再做一个我看看"
+                        },
+                        "not_improved": {
+                            "type": "url",
+                            "url": "https://example.com/media/service_audio/error_0_qukuan.wav",
+                            "text": "这次深蹲屈髋的幅度还不够，要再多点，你再做一个我看看"
+                        },
+                        "other_problem": {
+                            "type": "url",
+                            "url": "https://example.com/media/service_audio/other_problem_1.wav",
+                            "text": "也不用刻意往后蹲很多，背都弯了，稍微回来点，再来一个"
+                        }
+                    }
+                }
+            },
+            {
+                "id": 3,
+                "node_type": "receive_message",
+                "node_name": "receive_01",
+                "key_node": true,
+                "msg_queue": true,
+                "input_map":{
+                },
+                "choice_map":{
+                    "default": "judge_01"
+                },
+                "attrs":{
+                }
+            },
+            {
+                "id": 4,
+                "node_type": "judge_motion",
+                "node_name": "judge_01",
+                "key_node": true,
+                "input_map":{
+                    "pkg": "receive_01.pkg"
+                },
+                "choice_map":{
+                    "default": "audio_dispatch_01"
+                },
+                "attrs":{
+                }
+            },
+            {
+                "id": 5,
+                "node_type": "send_audio_dispatch",
+                "node_name": "audio_dispatch_01",
+                "key_node": true,
+                "input_map":{
+                    "pkg_step": "judge_01.pkg_step",
+                    "adjust": "judge_01.adjust",
+                    "status": "judge_01.status"
+                },
+                "choice_map":{
+                    "good": "finish",
+                    "improved": "receive_02",
+                    "not_improved": "receive_02",
+                    "other_problem": "receive_02"
+                },
+                "attrs":{
+                    "audio_url": {
+                        "good": {
+                            "type": "url",
+                            "url": "https://example.com/media/service_audio/good_0.wav",
+                            "text": "厉害，一次就调整到位了，咱们继续。"
+                        },
+                        "improved": {
+                            "type": "url",
+                            "url": "https://example.com/media/service_audio/improved_1.wav",
+                            "text": "很好，你的屈髋幅度比上一个动作有明显进步，我们再来一个"
+                        },
+                        "not_improved": {
+                            "type": "url",
+                            "url": "https://example.com/media/service_audio/not_improved_1.wav",
+                            "text": "加油，屈髋再多一些，我们再来一个"
+                        },
+                        "other_problem": {
+                            "type": "url",
+                            "url": "https://example.com/media/service_audio/other_problem_1.wav",
+                            "text": "也不用刻意往后蹲很多，背都弯了，稍微回来点，再来一个"
+                        }
+                    }
+                }
+            },
+            {
+                "id": 6,
+                "node_type": "receive_message",
+                "node_name": "receive_02",
+                "key_node": true,
+                "msg_queue": true,
+                "input_map":{
+                },
+                "choice_map":{
+                    "default": "judge_02"
+                },
+                "attrs":{
+                }
+            },
+            {
+                "id": 7,
+                "node_type": "judge_motion",
+                "node_name": "judge_02",
+                "key_node": true,
+                "input_map":{
+                    "pkg": "receive_02.pkg"
+                },
+                "choice_map":{
+                    "default": "audio_dispatch_02"
+                },
+                "attrs":{
+                }
+            },
+            {
+                "id": 8,
+                "node_type": "send_audio_dispatch",
+                "node_name": "audio_dispatch_02",
+                "key_node": true,
+                "input_map":{
+                    "pkg_step": "judge_02.pkg_step",
+                    "adjust": "judge_02.adjust",
+                    "status": "judge_02.status"
+                },
+                "choice_map":{
+                    "good": "finish",
+                    "improved": "llm_stream_02",
+                    "not_improved": "receive_03",
+                    "other_problem": "receive_03"
+                },
+                "attrs":{
+                    "audio_url": {
+                        "good": {
+                            "type": "url",
+                            "url": "https://example.com/media/service_audio/good_1.wav",
+                            "text": "厉害，一次就调整到位了，咱们继续。"
+                        },
+                        "improved": {
+                            "type": "tts"
+                        },
+                        "not_improved": {
+                            "type": "url",
+                            "url": "https://example.com/media/service_audio/not_improved_1.wav",
+                            "text": "加油，屈髋再多一些，我们再来一个"
+                        },
+                        "other_problem": {
+                            "type": "url",
+                            "url": "https://example.com/media/service_audio/other_problem_1.wav",
+                            "text": "也不用刻意往后蹲很多，背都弯了，稍微回来点，再来一个"
+                        }
+                    }
+                }
+            },
+            {
+                "id": 9,
+                "node_type": "llm_stream",
+                "node_name": "llm_stream_02",
+                "input_map":{
+                    "prompt_item": "judge_02.prompt_item"
+                },
+                "choice_map":{
+                    "default": "tts_02"
+                },
+                "attrs":{
+                    "model": "GLM-4-FlashX-250414",
+                    "prompt": "user_question.md",
+                    "system": "你是一个健身教练，正在给学员动作指导\n\n你需要根据学员的动作信息，输出反馈，帮助学员纠正动作\n\n输出要求：\n1.自然口语化，像教练指导学员一样，可以用一些程度模糊词如“一点点”，“稍微”，语气助词，增加口语化\n2.语气平和，务必避免语气过于强烈的感叹词以及反问句、疑问句\n3.参考上一次的提示，结合本次变化情况，如果有改善，回复中要包含上次指导的信息，可以用例如“还要”，“还需要”，“需要再”等连续性词语，如果没有改善，要考虑更换更通俗的指导话语\n4.如果上次指导针对的是其他错误，本次指导不需要参考上次指导\n5.输出一句简短自然的人类教练式反馈，像实时反馈一般，回复控制在15字以内\n"
+                }
+            },
+            {
+                "id": 10,
+                "node_type": "tts_stream2step",
+                "node_name": "tts_02",
+                "input_map":{
+                    "content": "llm_stream_02.content"
+                },
+                "choice_map":{
+                    "default": "send_data_02"
+                },
+                "attrs":{
+                    "encode": true,
+                    "speaker_id": "x5_lingfeiyi_flow"
+                }
+            },
+            {
+                "id": 11,
+                "node_type": "send_audio_data",
+                "node_name": "send_data_02",
+                "input_map":{
+                    "response": "audio_dispatch_02.response",
+                    "data": "tts_02.pcm_data"
+                },
+                "choice_map":{
+                    "default": "receive_03"
+                },
+                "attrs":{
+                    "encode": true,
+                    "speaker_id": "x5_lingfeiyi_flow"
+                }
+            },
+            {
+                "id": 12,
+                "node_type": "receive_message",
+                "node_name": "receive_03",
+                "key_node": true,
+                "msg_queue": true,
+                "input_map":{
+                },
+                "choice_map":{
+                    "default": "judge_03"
+                },
+                "attrs":{
+                }
+            },
+            {
+                "id": 13,
+                "node_type": "judge_motion",
+                "node_name": "judge_03",
+                "key_node": true,
+                "input_map":{
+                    "pkg": "receive_03.pkg"
+                },
+                "choice_map":{
+                    "default": "audio_dispatch_03"
+                },
+                "attrs":{
+                }
+            },
+            {
+                "id": 14,
+                "node_type": "send_audio_dispatch",
+                "node_name": "audio_dispatch_03",
+                "key_node": true,
+                "input_map":{
+                    "pkg_step": "judge_03.pkg_step",
+                    "adjust": "judge_03.adjust",
+                    "status": "judge_03.status"
+                },
+                "choice_map":{
+                    "good": "finish",
+                    "improved": "llm_stream_03",
+                    "not_improved": "llm_stream_03",
+                    "other_problem": "llm_stream_03"
+                },
+                "attrs":{
+                    "audio_url": {
+                        "good": {
+                            "type": "url",
+                            "url": "https://example.com/media/service_audio/good_2.wav",
+                            "text": "厉害，一次就调整到位了，咱们继续。"
+                        },
+                        "improved": {
+                            "type": "tts"
+                        },
+                        "not_improved": {
+                            "type": "tts"
+                        },
+                        "other_problem": {
+                            "type": "tts"
+                        }
+                    }
+                }
+            },
+            {
+                "id": 15,
+                "node_type": "llm_stream",
+                "node_name": "llm_stream_03",
+                "input_map":{
+                    "prompt_item": "judge_03.prompt_item"
+                },
+                "choice_map":{
+                    "default": "tts_03"
+                },
+                "attrs":{
+                    "model": "GLM-4-FlashX-250414",
+                    "prompt": "user_adjust.md",
+                    "system": "你是一个健身教练，正在给学员动作指导\n\n当前学员的表现暂时达不到原本的标准\n\n请输出一句控制在40字以内的指导语句\n"
+                }
+            },
+            {
+                "id": 16,
+                "node_type": "tts_stream2step",
+                "node_name": "tts_03",
+                "input_map":{
+                    "content": "llm_stream_03.content"
+                },
+                "choice_map":{
+                    "default": "send_data_03"
+                },
+                "attrs":{
+                    "encode": true,
+                    "speaker_id": "x5_lingfeiyi_flow"
+                }
+            },
+            {
+                "id": 17,
+                "node_type": "send_audio_data",
+                "node_name": "send_data_03",
+                "input_map":{
+                    "response": "audio_dispatch_03.response",
+                    "data": "tts_03.pcm_data"
+                },
+                "choice_map":{
+                    "default": "finish"
+                },
+                "attrs":{
+                    "encode": true,
+                    "speaker_id": "x5_lingfeiyi_flow"
+                }
+            }
+        ]
+            
+    },
+    "between_set":{
+        "start_node": "receive_user_info",
+        "listen_at_start": true,
+        "input_parameters": {
+        },
+        "nodes":[
+            {
+                "id": 0,
+                "node_type": "receive_message",
+                "node_name": "receive_user_info",
+                "input_map":{
+                },
+                "choice_map":{
+                    "default": "judge_report"
+                },
+                "attrs":{
+                }
+            },{
+                "id": 1,
+                "node_type": "clac_trace",
+                "node_name": "judge_report",
+                "input_map":{
+                    "pkg": "receive_user_info.pkg"
+                },
+                "choice_map":{
+                    "default": "send_report_ack",
+                    "no_data": "send_no_data_ack"
+                },
+                "attrs":{
+                }
+            },{
+                "id": 200,
+                "node_type": "send_ack",
+                "node_name": "send_no_data_ack",
+                "input_map":{
+                    "last_message_id": "receive_user_info.last_message_id"
+                },
+                "choice_map":{
+                    "default": "send_decision1_no_data"
+                },
+                "attrs":{
+                    "step_name": "before"
+                }
+            },{
+                "id": 201,
+                "node_type": "send_decision1",
+                "node_name": "send_decision1_no_data",
+                "input_map":{
+                    "pic_res": null,
+                    "summary_content": null,
+                    "audio_data": null
+                },
+                "choice_map":{
+                    "default": "finish"
+                },
+                "attrs":{
+                    "step_name": "step_0",
+                    "status": "visual",
+                    "extra_text": "有效动作过少，分析卡壳了"
+                }
+            },{
+                "id": 100,
+                "node_type": "send_ack",
+                "node_name": "send_report_ack",
+                "input_map":{
+                    "last_message_id": "receive_user_info.last_message_id"
+                },
+                "choice_map":{
+                    "default": "download_pic"
+                },
+                "attrs":{
+                    "step_name": "before"
+                }
+            },{
+                "id": 101,
+                "node_type": "get_pic",
+                "node_name": "download_pic",
+                "input_map":{
+                    "pkg": "judge_report.parsed_pkg",
+                    "token": "judge_report.token"
+                },
+                "choice_map":{
+                    "default": "decision_point_1"
+                },
+                "attrs":{
+                }
+            },{
+                "id": 102,
+                "node_type": "llm_step",
+                "node_name": "decision_point_1",
+                "input_map":{
+                    "params_0": "judge_report.params",
+                    "params_1": null,
+                    "params_2": null
+                },
+                "choice_map":{
+                    "default": "inter_summary"
+                },
+                "attrs":{
+                    "model": "GLM-4-FlashX-250414",
+                    "prompt": "intergroup_decision1.md",
+                    "system": "",
+                    "json": true,
+                    "static_params": {}
+                }
+            },{
+                "id": 103,
+                "node_type": "llm_step",
+                "node_name": "inter_summary",
+                "input_map":{
+                    "params_0": "decision_point_1.content",
+                    "params_1": "judge_report.params",
+                    "params_2": null
+                },
+                "choice_map":{
+                    "default": "pic_summary"
+                },
+                "attrs":{
+                    "model": "GLM-4-FlashX-250414",
+                    "prompt": "intergroup_summary.md",
+                    "system": "你是一名健身教练，请根据学员训练表现情况生成反馈总结。\n要求：​\n1.固定输出两点（点1+点2），每点 ≤40字，同时输出口语化总结（将点1和点2的要求合并为一段 ≤80字，用积极鼓励情感表达）​\n2.必须根据不同分类（A/B/C）遵循规则\n3.在A的情况下，要求精准定位问题和解决方案，如点1要中性陈述动作问题事实，避免打击性词汇,必须要阐明还有多少次动作有带提高(用总动作数减去高质量动作数)和点2要指出最关键问题，并给出改正方法，\n4.在B的情况下，要求表扬和优化提升，如点1先表扬高质量完成次数，再指出有多少次动作完成的不足不足和点2要鼓励用户在不足点上做得更好\n5.在C的情况下，要求要正反馈和强化记忆，如点1要用充满能量的词汇和数据肯定努力和点2要帮助用户记住并复制成功经验\n6.首先必须要清楚的讲清楚本次完成的动作数量，高质量或有待提高的动作又几个\n7.总共字数不超过80字\n8.要求使用第二人称表达语气要人性化，有鼓励感，可以适当用语气助词\n输出严格遵守json格式，格式如下\n{ \n    \"point_1\": //点1,\n    \"point_2\": //点2,\n    \"sumrization\": //口语化总结\n}",
+                    "json": true,
+                    "static_params": {}
+                }
+            },{
+                "id": 301,
+                "node_type": "llm_step",
+                "node_name": "pic_summary",
+                "input_map":{
+                    "params_0": "judge_report.params",
+                    "params_1": "download_pic.pic_res",
+                    "params_2": null
+                },
+                "choice_map":{
+                    "default": "send_decision1_visual"
+                },
+                "attrs":{
+                    "model": "GLM-4-FlashX-250414",
+                    "prompt": "pic_summary.md",
+                    "system": "你是一名健身教练，请根据学员训练表现情况生成反馈总结。\n\n要求：\n1.基于快照的错误给出总结用户出现的不足之处\n2.基于错误告知用户如何改进\n3.要求语气要人性化，有鼓励感，可以适当用语气助词\n4.总共字数不超过40字",
+                    "json": false,
+                    "static_params": {}
+                }
+            },{
+                "id": 104,
+                "node_type": "send_decision1",
+                "node_name": "send_decision1_visual",
+                "input_map":{
+                    "pic_res": "download_pic.pic_res",
+                    "summary_content": "inter_summary.content",
+                    "audio_data": null
+                },
+                "choice_map":{
+                    "default": "receive_step_0_visual_ack"
+                },
+                "attrs":{
+                    "step_name": "step_0",
+                    "status": "visual"
+                }
+            },{
+                "id": 3,
+                "node_type": "receive_ack",
+                "node_name": "receive_step_0_visual_ack",
+                "input_map":{
+                    "last_message_id": "send_decision1_visual.last_message_id"
+                },
+                "choice_map":{
+                    "default": "tts_append"
+                },
+                "attrs":{
+                    "step_name": "step_0",
+                    "status": "visual"
+                }
+            },{
+                "id": 302,
+                "node_type": "text_append",
+                "node_name": "tts_append",
+                "input_map":{
+                    "content_0": "inter_summary.content",
+                    "content_1": "pic_summary.content",
+                    "content_2": null
+                },
+                "choice_map":{
+                    "default": "summary_tts"
+                },
+                "attrs":{
+                    "key_0": "sumrization"
+                }
+            },{
+                "id": 105,
+                "node_type": "tts_step2step",
+                "node_name": "summary_tts",
+                "input_map":{
+                    "content": "tts_append.content"
+                },
+                "choice_map":{
+                    "default": "send_decision1_audio"
+                },
+                "attrs":{
+                    "encode": true,
+                    "speaker_id": "x5_lingfeiyi_flow"
+                }
+            },{
+                "id": 106,
+                "node_type": "send_decision1",
+                "node_name": "send_decision1_audio",
+                "input_map":{
+                    "pic_res": null,
+                    "summary_content": null,
+                    "audio_data": "summary_tts.pcm_data"
+                },
+                "choice_map":{
+                    "default": "receive_step_0_audio_ack"
+                },
+                "attrs":{
+                    "step_name": "step_0",
+                    "status": "audio"
+                }
+            },{
+                "id": 5,
+                "node_type": "receive_ack",
+                "node_name": "receive_step_0_audio_ack",
+                "input_map":{
+                    "last_message_id": "send_decision1_audio.last_message_id"
+                },
+                "choice_map":{
+                    "default": "decision_point_2"
+                },
+                "attrs":{
+                    "step_name": "step_0",
+                    "status": "audio"
+                }
+            },{
+                "id": 107,
+                "node_type": "llm_step",
+                "node_name": "decision_point_2",
+                "input_map":{
+                    "params_0": "judge_report.params",
+                    "params_1": null,
+                    "params_2": null
+                },
+                "choice_map":{
+                    "default": "judge_point_2"
+                },
+                "attrs":{
+                    "model": "GLM-4-FlashX-250414",
+                    "prompt": "intergroup_decision2.md",
+                    "system": "",
+                    "json": true,
+                    "static_params": {}
+                }
+            },{
+                "id": 108,
+                "node_type": "judge_decision2",
+                "node_name": "judge_point_2",
+                "input_map":{
+                    "llm_res": "decision_point_2.content"
+                },
+                "choice_map":{
+                    "asr": "question_tts",
+                    "skip": "before_decision3_node"
+                },
+                "attrs":{
+                }
+            },{
+                "id": 109,
+                "node_type": "tts_step2step",
+                "node_name": "question_tts",
+                "input_map":{
+                    "content": "decision_point_2.content"
+                },
+                "choice_map":{
+                    "default": "send_decision2_content"
+                },
+                "attrs":{
+                    "encode": true,
+                    "speaker_id": "x5_lingfeiyi_flow",
+                    "key": "message"
+                }
+            },{
+                "id": 110,
+                "node_type": "send_decision2",
+                "node_name": "send_decision2_content",
+                "input_map":{
+                    "llm_res": "decision_point_2.content",
+                    "audio_data": "question_tts.pcm_data"
+                },
+                "choice_map":{
+                    "default": "receive_step_1_visual_audio_ack"
+                },
+                "attrs":{
+                    "step_name": "step_1",
+                    "status": "visual_audio"
+                }
+            },{
+                "id": 7,
+                "node_type": "receive_ack",
+                "node_name": "receive_step_1_visual_audio_ack",
+                "input_map":{
+                    "last_message_id": "send_decision2_content.last_message_id"
+                },
+                "choice_map":{
+                    "default": "step_1_asr"
+                },
+                "attrs":{
+                }
+            },{
+                "id": 8,
+                "node_type": "asr_vad",
+                "node_name": "step_1_asr",
+                "input_map":{
+                },
+                "choice_map":{
+                    "default": "before_decision3_node"
+                },
+                "attrs":{
+                    "step_name": "step_1",
+                    "if_result_audio": true,
+                    "result_audio_empty": "tmp_pcm/empty.txt",
+                    "result_audio_receive": "tmp_pcm/receive.txt"
+                }
+            },{
+                "id": 111,
+                "node_type": "before_decision3",
+                "node_name": "before_decision3_node",
+                "key_node": true,
+                "input_map":{
+                    "choice": "judge_point_2.choice",
+                    "llm_res": "decision_point_2.content",
+                    "asr_text": "step_1_asr.asr_text",
+                    "trace": "judge_report.params"
+                },
+                "choice_map":{
+                    "default": "decision_point_3"
+                },
+                "attrs":{
+                }
+            },{
+                "id": 112,
+                "node_type": "llm_step",
+                "node_name": "decision_point_3",
+                "input_map":{
+                    "params_0": "judge_report.params",
+                    "params_1": "before_decision3_node.params",
+                    "params_2": null
+                },
+                "choice_map":{
+                    "default": "after_decision3_node"
+                },
+                "attrs":{
+                    "model": "GLM-4-FlashX-250414",
+                    "prompt": "intergroup_decision3.md",
+                    "system": "",
+                    "json": true,
+                    "static_params": {}
+                }
+            },{
+                "id": 113,
+                "node_type": "after_decision3",
+                "node_name": "after_decision3_node",
+                "input_map":{
+                    "llm_res": "decision_point_3.content",
+                    "params": "judge_report.params"
+                },
+                "choice_map":{
+                    "default": "adjust_reason_text"
+                },
+                "attrs":{
+                    "step_name": "step_2",
+                    "status": "visual"
+                }
+            },{
+                "id": 304,
+                "node_type": "llm_step",
+                "node_name": "adjust_reason_text",
+                "input_map":{
+                    "params_0": "after_decision3_node.adjust_result",
+                    "params_1": null,
+                    "params_2": null
+                },
+                "choice_map":{
+                    "default": "suggestion_tts"
+                },
+                "attrs":{
+                    "model": "GLM-4-FlashX-250414",
+                    "prompt": "adjust_reason_text.md",
+                    "system": "你是一个专业和蔼的健身教练，根据用户的训练反馈和当前动作要求，生成个性化的鼓励或调整建议。\n要求\n1. 当adjust为\"否\"时，对用户的努力和进步给予积极肯定，解释调整的原因不要有打压性，鼓励继续保持当前的训练状态，字数在40个字以内\n2. 当adjust为\"是\"时，如果idea说明对动作标准进行调整时，告诉学员[我对xx要求稍微下调了]，必须根据目前的rep进行告知现在要求，字数可以适当调整到60字内。如调整数量则告诉学员数量调整，保证明确告知具体的调整措施和解释调整的原因和目的，字数为40个字以内\n3. 使用第二人称\"你\"，亲切自然，体现私人教练的专业性和关怀\n4. 语言温暖且具有激励性，保持积极正面的语调，避免过于严厉或消极的表达",
+                    "json": false,
+                    "static_params": {}
+                }
+            },{
+                "id": 114,
+                "node_type": "tts_step2step",
+                "node_name": "suggestion_tts",
+                "input_map":{
+                    "content": "adjust_reason_text.content"
+                },
+                "choice_map":{
+                    "default": "send_decision3_audio_node"
+                },
+                "attrs":{
+                    "encode": true,
+                    "speaker_id": "x5_lingfeiyi_flow"
+                }
+            },{
+                "id": 115,
+                "node_type": "send_decision3_audio",
+                "node_name": "send_decision3_audio_node",
+                "input_map":{
+                    "audio_data": "suggestion_tts.pcm_data"
+                },
+                "choice_map":{
+                    "default": "receive_step_2_audio_ack"
+                },
+                "attrs":{
+                    "step_name": "step_1",
+                    "status": "audio"
+                }
+            },{
+                "id": 13,
+                "node_type": "receive_ack",
+                "node_name": "receive_step_2_audio_ack",
+                "input_map":{
+                    "last_message_id": "send_decision3_audio_node.last_message_id"
+                },
+                "choice_map":{
+                    "default": "receive_step_2_motion_change_result"
+                },
+                "attrs":{
+                }
+            },{
+                "id": 14,
+                "node_type": "receive_motion_change_result",
+                "node_name": "receive_step_2_motion_change_result",
+                "input_map":{
+                },
+                "choice_map":{
+                    "default": "finish"
+                },
+                "attrs":{
+                }
+            }
+        ]
+    }
+}

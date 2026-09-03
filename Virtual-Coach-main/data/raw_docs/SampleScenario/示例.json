@@ -1,0 +1,26 @@
+[
+  {
+    "input": {
+      "user_text": "我叫张三，今年28岁，男，电话13800138000，邮箱zhangsan@example.com"
+    },
+    "output": {
+      "name": "张三",
+      "age": 28,
+      "gender": "男",
+      "phone": "13800138000",
+      "email": "zhangsan@example.com"
+    }
+  },
+  {
+    "input": {
+      "user_text": "李四，女，1995年出生，联系方式lisi@work.com"
+    },
+    "output": {
+      "name": "李四",
+      "age": 29,
+      "gender": "女",
+      "phone": null,
+      "email": "lisi@work.com"
+    }
+  }
+]

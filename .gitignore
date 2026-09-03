@@ -1,0 +1,68 @@
+# Secrets and local credentials
+.env
+.env.*
+**/.env
+**/.env.*
+**/api_keys.py
+!**/api_keys_template.py
+**/llm_key.py
+!**/llm_key.example.py
+**/.deploy_config/
+
+# Local editor / agent state
+.claude/
+.agents/
+.omc/
+.idea/
+.vscode/
+*.swp
+*.bkp
+
+# Third-party papers (copyrighted) and unpublished manuscripts
+Virtual-Coach-main/paper/
+
+# Proprietary product prompts, eval sets, traces, and deploy templates
+# (kept on disk for local use; not published)
+Virtual-Coach-main/data/prompt/虚拟教练组间总结/
+Virtual-Coach-main/data/prompt/无评估动作虚拟教练总结/
+Virtual-Coach-main/data/prompt/训练日介绍语/
+Virtual-Coach-main/data/prompt/测试/
+Virtual-Coach-main/data/eval/无评估动作虚拟教练总结.json
+Virtual-Coach-main/data/eval/组间下一组交互式会话决策安排.json
+Virtual-Coach-main/data/eval/虚拟教练组间总结.json
+Virtual-Coach-main/data/eval/训练日介绍语.json
+Virtual-Coach-main/data/system_context/
+Virtual-Coach-main/data/trace/
+Virtual-Coach-main/data/raw_docs/无评估动作虚拟教练总结/
+Virtual-Coach-main/data/raw_docs/虚拟教练组间总结/
+Virtual-Coach-main/data/raw_docs/训练日介绍语/
+Virtual-Coach-main/code/eval/eval_prompt_无评估动作虚拟教练总结.py
+Virtual-Coach-main/code/eval/eval_prompt_测试.py
+Virtual-Coach-main/code/eval/eval_prompt_虚拟教练组间总结.py
+Virtual-Coach-main/code/eval/eval_prompt_训练日介绍语.py
+Virtual-Coach-main/code/workflow/prompt/ws/intergroup_*.md
+上线prompt/intergroup_summary_v23.tmpl
+上线prompt/*.pdf
+cross_lingual_test/results/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Runtime / deploy artifacts
+*.log
+上线prompt/deploy/*_result.json
+上线prompt/deploy/*_output*.json
+上线prompt/deploy/*_raw_output.txt

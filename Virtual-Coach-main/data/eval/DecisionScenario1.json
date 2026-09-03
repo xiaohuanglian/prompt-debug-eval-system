@@ -1,0 +1,172 @@
+[
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 2,
+          "error_reps": 6,
+          "most_frequent_error_type": "肩放置过前"
+        },
+        "exercise_name": "卧推",
+        "set_reps": 8
+      },
+      "output": {
+        "exercise_name": "卧推",
+        "set_reps": 8,
+        "performance_class": "A",
+        "reason": "仅完成2次高质量动作，错误率75%，主要错误为肩放置过前。"
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 5,
+          "error_reps": 5,
+          "most_frequent_error_type": "下蹲深度不足"
+        },
+        "exercise_name": "深蹲",
+        "set_reps": 10
+      },
+      "output": {
+        "exercise_name": "深蹲",
+        "set_reps": 10,
+        "performance_class": "B",
+        "reason": "完成度50%，存在一定深度不足问题，但整体仍有部分动作质量。"
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 9,
+          "error_reps": 1,
+          "most_frequent_error_type": "动作节奏偏快"
+        },
+        "exercise_name": "俯卧撑",
+        "set_reps": 10
+      },
+      "output": {
+        "exercise_name": "俯卧撑",
+        "set_reps": 10,
+        "performance_class": "C",
+        "reason": "90% 动作完成度，整体表现出色，仅有少量节奏偏快的小瑕疵。"
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 3,
+          "error_reps": 7,
+          "most_frequent_error_type": "背部塌陷"
+        },
+        "exercise_name": "平板支撑提膝",
+        "set_reps": 10
+      },
+      "output": {
+        "exercise_name": "平板支撑提膝",
+        "set_reps": 10,
+        "performance_class": "A",
+        "reason": "高质量比例仅30%，错误率过高，典型错误为背部塌陷。"
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 7,
+          "error_reps": 3,
+          "most_frequent_error_type": "核心收紧不足"
+        },
+        "exercise_name": "硬拉",
+        "set_reps": 10
+      },
+      "output": {
+        "exercise_name": "硬拉",
+        "set_reps": 10,
+        "performance_class": "B",
+        "reason": "70% 动作高质量完成，但仍有核心收紧不足问题。"
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 10,
+          "error_reps": 0,
+          "most_frequent_error_type": null
+        },
+        "exercise_name": "引体向上",
+        "set_reps": 10
+      },
+      "output": {
+        "exercise_name": "引体向上",
+        "set_reps": 10,
+        "performance_class": "C",
+        "reason": "100% 高质量完成，无明显错误，表现非常出色。"
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 4,
+          "error_reps": 6,
+          "most_frequent_error_type": "肘部外展过大"
+        },
+        "exercise_name": "肩推",
+        "set_reps": 10
+      },
+      "output": {
+        "exercise_name": "肩推",
+        "set_reps": 10,
+        "performance_class": "A",
+        "reason": "仅完成40% 高质量动作，肘部外展过大造成较大错误。"
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 8,
+          "error_reps": 2,
+          "most_frequent_error_type": "呼吸不均匀"
+        },
+        "exercise_name": "卷腹",
+        "set_reps": 10
+      },
+      "output": {
+        "exercise_name": "卷腹",
+        "set_reps": 10,
+        "performance_class": "B",
+        "reason": "完成度80%，整体表现良好，仅有呼吸节奏的小问题。"
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 6,
+          "error_reps": 4,
+          "most_frequent_error_type": "膝盖内扣"
+        },
+        "exercise_name": "弓步蹲",
+        "set_reps": 10
+      },
+      "output": {
+        "exercise_name": "弓步蹲",
+        "set_reps": 10,
+        "performance_class": "B",
+        "reason": "60% 高质量完成，但膝盖内扣需及时纠正。"
+      }
+    },
+    {
+      "input": {
+        "training_performance": {
+          "high_quality_reps": 1,
+          "error_reps": 9,
+          "most_frequent_error_type": "下背过度弯曲"
+        },
+        "exercise_name": "壶铃摆动",
+        "set_reps": 10
+      },
+      "output": {
+        "exercise_name": "壶铃摆动",
+        "set_reps": 10,
+        "performance_class": "A",
+        "reason": "错误率高达90%，主要错误为下背过度弯曲，表现极差。"
+      }
+    }
+  ]

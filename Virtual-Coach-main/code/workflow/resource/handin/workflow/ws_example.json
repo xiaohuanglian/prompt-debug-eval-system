@@ -1,0 +1,110 @@
+{
+    "example_workflow":{
+        "start_node": "intent_node",
+        "listen_at_start": false,
+        "input_parameters": {
+            "params": "step"
+        },
+        "nodes":[
+            {
+                "id": 1,
+                "node_type": "llm_step",
+                "node_name": "intent_node",
+                "input_map":{
+                    "params_0": "start.params",
+                    "params_1": null,
+                    "params_2": null
+                },
+                "choice_map":{
+                    "default": "choose_intent"
+                },
+                "attrs":{
+                    "model": "GLM-4-FlashX-250414",
+                    "prompt": "user_intent.md",
+                    "system": "",
+                    "json": false,
+                    "static_params": {}
+                }
+            },{
+                "id": 2,
+                "node_type": "choose_node",
+                "node_name": "chose_intent",
+                "input_map":{
+                    "content": "intent_node.content"
+                },
+                "choice_map":{
+                    "choice_a": "answer_question",
+                    "choice_b": "pep_talk"
+                }
+            },{
+                "id": 3,
+                "node_type": "llm_step",
+                "node_name": "answer_question",
+                "input_map":{
+                    "params_0": "start.params",
+                    "params_1": null,
+                    "params_2": null
+                },
+                "choice_map":{
+                    "default": "result_tts_1"
+                },
+                "attrs":{
+                    "model": "GLM-4-FlashX-250414",
+                    "prompt": "test_question.md",
+                    "system": "",
+                    "json": false,
+                    "static_params": {}
+                }
+            },{
+                "id": 4,
+                "node_type": "llm_step",
+                "node_name": "pep_talk",
+                "input_map":{
+                    "params_0": "start.params",
+                    "params_1": null,
+                    "params_2": null
+                },
+                "choice_map":{
+                    "default": "result_tts_2"
+                },
+                "attrs":{
+                    "model": "GLM-4-FlashX-250414",
+                    "prompt": "test_peptalk.md",
+                    "system": "",
+                    "json": false,
+                    "static_params": {}
+                }
+            },{
+                "id": 5,
+                "node_type": "tts_step2step",
+                "node_name": "result_tts_1",
+                "input_map":{
+                    "content": "answer_question.content"
+                },
+                "choice_map":{
+                    "default": "finish"
+                },
+                "attrs":{
+                    "encode": true,
+                    "speaker_id": "x5_lingfeiyi_flow",
+                    "key": "sumrization"
+                }
+            },{
+                "id": 6,
+                "node_type": "tts_step2step",
+                "node_name": "result_tts_2",
+                "input_map":{
+                    "content": "pep_talk.content"
+                },
+                "choice_map":{
+                    "default": "finish"
+                },
+                "attrs":{
+                    "encode": true,
+                    "speaker_id": "x5_lingfeiyi_flow",
+                    "key": "sumrization"
+                }
+            }
+        ]
+    }
+}

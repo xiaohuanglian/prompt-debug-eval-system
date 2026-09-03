@@ -1,0 +1,4 @@
+pydantic>=2.0
+zai-sdk>=0.2.0
+fastapi
+uvicorn

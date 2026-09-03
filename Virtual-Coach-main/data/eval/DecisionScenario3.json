@@ -1,0 +1,127 @@
+[
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 9,
+        "error_reps": 1,
+        "most_frequent_error_type": "动作节奏偏快"
+      },
+      "communication_result": "感觉良好",
+      "user_goal": "保持健康",
+      "exercise_name": "俯卧撑",
+      "set_reps": 10,
+      "quality_checkpoints": {
+        "elbow_lock": {"is_enabled": true, "standard": "medium"}
+      }
+    },
+    "output": {
+      "should_adjust": false,
+      "reason": "表现稳定无需调整"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 3,
+        "error_reps": 7,
+        "most_frequent_error_type": "核心收紧不足"
+      },
+      "communication_result": "感觉很吃力",
+      "user_goal": "增加力量",
+      "exercise_name": "深蹲",
+      "set_reps": 10,
+      "quality_checkpoints": {
+        "squat_depth": {"is_enabled": true, "standard": "high"},
+        "knee_stability": {"is_enabled": true, "standard": "high"}
+      }
+    },
+    "output": {
+      "should_adjust": true,
+      "adjustment": {
+        "type": "CHANGE_REP_COUNT",
+        "old_Reps": 10,
+        "new_Reps": 8,
+        "adjust_reason": "减少负担，保证动作质量"
+      },
+      "reason": "错误率高需减负"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 7,
+        "error_reps": 3,
+        "most_frequent_error_type": "下蹲深度不足"
+      },
+      "communication_result": "想挑战更严格标准",
+      "user_goal": "塑形",
+      "exercise_name": "深蹲",
+      "set_reps": 10,
+      "quality_checkpoints": {
+        "squat_depth": {"is_enabled": true, "standard": "medium"}
+      }
+    },
+    "output": {
+      "should_adjust": true,
+      "adjustment": {
+        "type": "CHANGE_QUALITY_STANDARD",
+        "checkpoint_Id": "squat_depth",
+        "old_standard": "medium",
+        "new_standard": "high",
+        "adjust_reason": "用户希望更高挑战，提升深度要求"
+      },
+      "reason": "用户主动要求提高"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 8,
+        "error_reps": 2,
+        "most_frequent_error_type": "停顿时间不足"
+      },
+      "communication_result": "节奏难把握",
+      "user_goal": "保持健康",
+      "exercise_name": "卧推",
+      "set_reps": 10,
+      "quality_checkpoints": {
+        "bottom_pause": {"is_enabled": true, "standard": "high"}
+      }
+    },
+    "output": {
+      "should_adjust": true,
+      "adjustment": {
+        "type": "TOGGLE_QUALITY_CHECKPOINT",
+        "checkpoint_Id": "bottom_pause",
+        "is_enabled": false,
+        "adjust_reason": "用户难以适应停顿要求，暂时关闭"
+      },
+      "reason": "降低难度便于完成"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 2,
+        "error_reps": 6,
+        "most_frequent_error_type": "肩放置过前"
+      },
+      "communication_result": "肩部不适",
+      "user_goal": "增强上肢力量",
+      "exercise_name": "杠铃卧推",
+      "set_reps": 8,
+      "quality_checkpoints": {
+        "shoulder_alignment": {"is_enabled": true, "standard": "medium"}
+      }
+    },
+    "output": {
+      "should_adjust": true,
+      "adjustment": {
+        "type": "CHANGE_EXERCISE",
+        "next_exercise_name": "哑铃卧推",
+        "adjust_reason": "用户肩部不适，改为更安全动作"
+      },
+      "reason": "避免肩关节风险"
+    }
+  }
+]

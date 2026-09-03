@@ -1,0 +1,242 @@
+[
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 10,
+        "error_reps": 0,
+        "most_frequent_error_type": null
+      },
+      "exercise_name": "卧推",
+      "set_reps": 10
+    },
+    "output": {
+      "need_to_communicate": false,
+      "message": ""
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 6,
+        "error_reps": 3,
+        "most_frequent_error_type": "肩放置过前"
+      },
+      "exercise_name": "杠铃划船",
+      "set_reps": 10
+    },
+    "output": {
+      "need_to_communicate": true,
+      "message": "你主要感觉到是背部或背阔肌在发力，还是手臂更明显？"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 8,
+        "error_reps": 0,
+        "most_frequent_error_type": null
+      },
+      "exercise_name": "硬拉",
+      "set_reps": 12
+    },
+    "output": {
+      "need_to_communicate": true,
+      "message": "如果从1到10打分，你给刚才的疲劳度打几分？"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 6,
+        "error_reps": 2,
+        "most_frequent_error_type": "动作不标准"
+      },
+      "exercise_name": "哑铃侧平举",
+      "set_reps": 8
+    },
+    "output": {
+      "need_to_communicate": true,
+      "message": "你主要感觉到是三角肌在发力，还是斜方肌或肱三头更明显？"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 0,
+        "error_reps": 0,
+        "most_frequent_error_type": null
+      },
+      "exercise_name": "平板支撑",
+      "set_reps": 10
+    },
+    "output": {
+      "need_to_communicate": true,
+      "message": "你主要感觉到是腹部在发力，还是腰背更明显？"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 17,
+        "error_reps": 3,
+        "most_frequent_error_type": "耸肩代偿"
+      },
+      "exercise_name": "高位下拉",
+      "set_reps": 20
+    },
+    "output": {
+      "need_to_communicate": true,
+      "message": "你主要感觉到是背部或背阔肌在发力，还是手臂更明显？"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 15,
+        "error_reps": 0,
+        "most_frequent_error_type": null
+      },
+      "exercise_name": "俯身杠铃划船",
+      "set_reps": 12
+    },
+    "output": {
+      "need_to_communicate": true,
+      "message": "如果从1到10打分，你给刚才的疲劳度打几分？"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 7,
+        "error_reps": 1,
+        "most_frequent_error_type": "摆动身体"
+      },
+      "exercise_name": "杠铃弯举",
+      "set_reps": 10
+    },
+    "output": {
+      "need_to_communicate": true,
+      "message": "你主要感觉到是肱二头肌在发力，还是前臂或肩部更明显？"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 9,
+        "error_reps": 1,
+        "most_frequent_error_type": "耸肩"
+      },
+      "exercise_name": "坐姿划船",
+      "set_reps": 12
+    },
+    "output": {
+      "need_to_communicate": true,
+      "message": "你主要感觉到是背部或背阔肌在发力，还是手臂更明显？"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 9,
+        "error_reps": 0,
+        "most_frequent_error_type": null
+      },
+      "exercise_name": "哑铃卧推",
+      "set_reps": 10
+    },
+    "output": {
+      "need_to_communicate": false,
+      "message": ""
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 5,
+        "error_reps": 0,
+        "most_frequent_error_type": null
+      },
+      "exercise_name": "提踵",
+      "set_reps": 8
+    },
+    "output": {
+      "need_to_communicate": true,
+      "message": "如果从1到10打分，你给刚才的疲劳度打几分？"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 4,
+        "error_reps": 6,
+        "most_frequent_error_type": "下背代偿"
+      },
+      "exercise_name": "罗马尼亚硬拉",
+      "set_reps": 10
+    },
+    "output": {
+      "need_to_communicate": true,
+      "message": "你主要感觉到是臀部或腿后侧在发力，还是下背更明显？"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 8,
+        "error_reps": 2,
+        "most_frequent_error_type": "摆动身体"
+      },
+      "exercise_name": "绳索下压",
+      "set_reps": 10
+    },
+    "output": {
+      "need_to_communicate": true,
+      "message": "你主要感觉到是肱三头肌在发力，还是肩部或前臂更明显？"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 10,
+        "error_reps": 0,
+        "most_frequent_error_type": null
+      },
+      "exercise_name": "肩上推举",
+      "set_reps": 12
+    },
+    "output": {
+      "need_to_communicate": true,
+      "message": "如果从1到10打分，你给刚才的疲劳度打几分？"
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 7,
+        "error_reps": 0,
+        "most_frequent_error_type": null
+      },
+      "exercise_name": "仰卧起坐",
+      "set_reps": 7
+    },
+    "output": {
+      "need_to_communicate": false,
+      "message": ""
+    }
+  },
+  {
+    "input": {
+      "training_performance": {
+        "high_quality_reps": 6,
+        "error_reps": 0,
+        "most_frequent_error_type": null
+      },
+      "exercise_name": "弓步蹲",
+      "set_reps": 8
+    },
+    "output": {
+      "need_to_communicate": true,
+      "message": "如果从1到10打分，你给刚才的疲劳度打几分？"
+    }
+  }
+]
